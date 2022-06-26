@@ -3,7 +3,7 @@
 using namespace std;
 
 class AbstractEmployee{
-    virtual void AskForPromotion()=0;
+    virtual void AskForPromotion()=0; // Abstraction: every class that inherit AbstractEmployee has to implement AskforPromotion in them.
 };
 
 class Employee:AbstractEmployee{
@@ -24,7 +24,7 @@ class Employee:AbstractEmployee{
         Age = age;
         Id = id;
     }
-    string getName()
+    string getName()  // Encapsulation: Data are hidden and getter setter are used to access the data.
     {
         return Name;
     }
@@ -59,9 +59,13 @@ class Employee:AbstractEmployee{
             cout<<Name<<" ,You are not eligible for Promotion."<<endl;
         }
     }
+    virtual void work()
+    {
+        cout<<getName()<<" is doing random work."<<endl;
+    }
 };
 
-class Developer:public Employee{
+class Developer:public Employee{  //Inheritance: child class inherit all the protected and public data members and member functions from the Base/Parent class.
     public:
     string Language;
 
@@ -74,16 +78,41 @@ class Developer:public Employee{
     {
         cout<<"Bug is fixed by:- "<<getName()<<" Id: "<<getID()<<" Language: "<<Language<<endl;
     }
+     void work()
+    {
+        cout<<getName()<<" is fixing bug of a "<<Language<<" program."<<endl;
+    }
 };
 
+class Teacher:public Employee{
+    public:
+    string Subject;
+
+    Teacher(string name,int age, int id,string subject):Employee(name,age,id)
+    {
+        Subject = subject;
+    }
+
+    void work()
+    {
+        cout<<getName()<<" is Teaching "<<Subject<<"."<<endl;
+    }
+};
 int main()
 {
     Employee e1 = Employee("Aman Tiwary",25,1);
     Employee e2 = Employee("Amit Randhawa",25,2);
     Developer d1 = Developer("Mandar Sahane",24,3,"C++");
-    
-    e1.AskForPromotion();
-    e2.AskForPromotion();
-    d1.BugFixer();
+    Teacher t1 = Teacher("Gautam Kumar",26,4,"Maths");
+    e1.work();
+    e2.work();
+    d1.work();
+    t1.work();
+
+    Employee *e3 = & d1;
+    Employee *e4 = & t1;
+
+    e3->work();
+    e4->work();
     return 0;
 }
